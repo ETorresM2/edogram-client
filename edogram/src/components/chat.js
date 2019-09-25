@@ -22,39 +22,20 @@ class Chat extends React.Component {
       .then(response => {
         this.setState({ sentMessages: response.data });
       })
-      .catch(err=>{
-          console.log(err)
-      })
+      .catch(err => {
+        console.log(err);
+      });
 
-      axios
+    axios
       .get(
         `http://localhost:5000/posts/${this.props.match.params.receiver}/${user.username}`
       )
       .then(response => {
         this.setState({ receivedMessages: response.data });
       })
-      .catch(err=>{
-          console.log(err)
-      })
-
-      
-      
-  };
-
-  componentDidUpdate = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    axios
-      .get(
-        `http://localhost:5000/posts/${user.username}/${this.props.match.params.receiver}`
-      )
-      .then(response => {
-        this.setState({ sentMessages: response.data });
-      })
-      .catch(err=>{
-          console.log(err)
-      })
-
-      
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   submitHandler = e => {
@@ -69,7 +50,9 @@ class Chat extends React.Component {
     axios
       .post("http://localhost:5000/posts", message)
       .then(response => {
-        console.log(response);
+        this.setState(prevState => ({
+          sentMessages: [...prevState.sentMessages, message]
+        }));
       })
       .catch(err => {
         console.log(err);
@@ -84,9 +67,7 @@ class Chat extends React.Component {
   };
 
   render() {
-      
     return (
-        
       <div>
         <h1>Chat</h1>
         <div>
