@@ -26,7 +26,7 @@ class App extends React.Component {
             <Link to="/login">Login</Link>
           </div>
           <Route exact path="/" component={Landing} />
-          <Route path="/chat" component={Chat} />
+          <Route path="/chat/:receiver" component={Chat} />
           <Route path="/login" render={props => <Login {...props} callback={this.pullUserFromLogin}/>} />
           <Route
             path="/dashboard"

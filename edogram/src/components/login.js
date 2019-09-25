@@ -19,8 +19,9 @@ class Login extends React.Component {
     this.props.callback(this.state.user)
   }
   getUser = response => {
+    localStorage.setItem("user", JSON.stringify(response.data))
+    console.log(localStorage.getItem("user"))
     this.setState({ user: response.data });
-    console.log(this.state.user);
     if (this.state.user) {
       this.sendUser()
       this.props.history.push("/dashboard");

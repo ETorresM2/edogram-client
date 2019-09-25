@@ -15,17 +15,21 @@ class Dashboard extends React.Component {
     };
   }
 
+
   componentDidMount = () => {
-    this.setState([this.state.user, this.props.user]);
+    const user = JSON.parse(localStorage.getItem("user"))
+    this.setState([this.state.user, localStorage.getItem("user")]);
     axios
-    .get(`http://localhost:5000/friends/${this.props.user.id}`)
+    .get(`http://localhost:5000/friends/${user.id}`)
     .then(response => this.setState({ friends: response.data }))
     .catch(error => console.log(error));
+    console.log(localStorage.getItem("user"))
   };
 
   componentDidUpdate = () => {
+    const user = JSON.parse(localStorage.getItem("user"))
     axios
-    .get(`http://localhost:5000/friends/${this.props.user.id}`)
+    .get(`http://localhost:5000/friends/${user.id}`)
     .then(response => this.setState({ friends: response.data }))
     .catch(error => console.log(error));
   }
@@ -36,22 +40,25 @@ class Dashboard extends React.Component {
   }
 
   submitHandler = e => {
+    const user = JSON.parse(localStorage.getItem("user"))
+
     e.preventDefault()
-    axios.post("http://localhost:5000/friends", {"initiator":this.props.user.id, "friendName": this.state.friend})
+    axios.post("http://localhost:5000/friends", {"initiator":user.id, "friendName": this.state.friend})
     .then(response => {
       console.log(response)
     })
-    .catch(error => console.log)
+    .catch(error => console.log(error))
     this.setState({friend:""})
 
   }
 
   render() {
+    const user = JSON.parse(localStorage.getItem("user"))
     return (
       <div>
         <h1>Welcome to Dashboard</h1>
 
-        <p>Name: {this.props.user.username} </p>
+        <p>Name: {user.username} </p>
         <div>
           <h3>Contacts:</h3>
           <div>
