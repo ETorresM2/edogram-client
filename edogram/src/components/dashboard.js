@@ -20,7 +20,7 @@ class Dashboard extends React.Component {
     const user = JSON.parse(localStorage.getItem("user"))
     this.setState([this.state.user, localStorage.getItem("user")]);
     axios
-    .get(`http://localhost:5000/friends/${user.id}`)
+    .get(`https://edgram.herokuapp.com/friends/${user.id}`)
     .then(response => this.setState({ friends: response.data }))
     .catch(error => console.log(error));
     console.log(localStorage.getItem("user"))
@@ -29,7 +29,7 @@ class Dashboard extends React.Component {
   componentDidUpdate = () => {
     const user = JSON.parse(localStorage.getItem("user"))
     axios
-    .get(`http://localhost:5000/friends/${user.id}`)
+    .get(`https://edgram.herokuapp.com/friends/${user.id}`)
     .then(response => this.setState({ friends: response.data }))
     .catch(error => console.log(error));
   }
@@ -43,7 +43,7 @@ class Dashboard extends React.Component {
     const user = JSON.parse(localStorage.getItem("user"))
 
     e.preventDefault()
-    axios.post("http://localhost:5000/friends", {"initiator":user.id, "friendName": this.state.friend})
+    axios.post("https://edgram.herokuapp.com/friends", {"initiator":user.id, "friendName": this.state.friend})
     .then(response => {
       console.log(response)
     })

@@ -1,12 +1,14 @@
 import React from "react";
 import axios from "axios";
+import socketIOClient from "socket.io-client";
 axios.defaults.withCredentials = true;
-const user = JSON.parse(localStorage.getItem("user"));
+let user = JSON.parse(localStorage.getItem("user"));
 
 class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      unread: false,
       // stores messages user has sent
       sentMessages: [],
       // stores messages user has recieved
@@ -19,10 +21,17 @@ class Chat extends React.Component {
   }
 
   componentDidMount = () => {
+    // sets socket data
+    const socket = socketIOClient("http://localhost:5000/");
+    // recieves the update flag from server. When the server emits the flag, it gets set to state,
+    // and that triggers the conditional in componentDidUpdate
+    socket.on("updateFlag", data => this.setState({ unread: data }))
+    // gets user data from local storage
+    user = JSON.parse(localStorage.getItem("user"));
     // get messages sent by the logged in user and sets them to state
     axios
       .get(
-        `http://localhost:5000/posts/${user.username}/${this.props.match.params.receiver}`
+        `https://edgram.herokuapp.com/posts/${user.username}/${this.props.match.params.receiver}`
       )
       .then(response => {
         this.setState({ sentMessages: response.data });
@@ -35,10 +44,31 @@ class Chat extends React.Component {
       });
   };
 
+  // if the update flag is set to true, then this function executes getReceivedMessages, and then sets the flag back to  to false
+  componentDidUpdate = () => {
+    if (this.state.unread===true) {
+      axios
+      .get(
+        `https://edgram.herokuapp.com/posts/${user.username}/${this.props.match.params.receiver}`
+      )
+      .then(response => {
+        this.setState({ sentMessages: response.data });
+      })
+      // below function gets received messages and sets them to state
+      .then(response => {
+        this.getReceivedMessages().catch(err => {
+          console.log(err);
+        });
+      })
+      .then(this.setState({unread: false}));
+    }
+  }
+
+  // gets the messages from API, sets it to state, then sorts it and sets it to state again
   getReceivedMessages = () => {
     return axios
       .get(
-        `http://localhost:5000/posts/${this.props.match.params.receiver}/${user.username}`
+        `https://edgram.herokuapp.com/posts/${this.props.match.params.receiver}/${user.username}`
       )
       .then(response => {
         this.setState({ receivedMessages: response.data });
@@ -51,28 +81,29 @@ class Chat extends React.Component {
       });
   };
 
+  // combines sent and received into one array, then sorts them by id
   combineMessages = () => {
-    console.log(this.state);
+    console.log("sorting");
     let receivedMessages = this.state.receivedMessages;
     let sentMessages = this.state.sentMessages;
     let messages = sentMessages.concat(receivedMessages);
     messages.sort(function(a, b) {
       return a.id - b.id;
     });
+    console.log("sorted, and setting")
+    console.log("messages: ", messages)
     this.setState({ messages: messages });
   };
 
   submitHandler = e => {
     e.preventDefault();
-
     let message = {
       body: this.state.newMessage,
       sender: user.username,
       receiver: this.props.match.params.receiver
     };
     axios
-      .post("http://localhost:5000/posts", message)
-      // Instead, run a get request, and then combine
+      .post("https://edgram.herokuapp.com/posts", message)
       .then(response => {
         this.setState(prevState => ({
           sentMessages: [...prevState.sentMessages, message]

@@ -30,7 +30,7 @@ class Login extends React.Component {
   submitHandler = event => {
     event.preventDefault();
     axios
-      .post("http://localhost:5000/login", this.state.creds)
+      .post("https://edgram.herokuapp.com/login", this.state.creds)
       .then(response => this.getUser(response))
       .catch(error => console.log(error));
     this.setState({
