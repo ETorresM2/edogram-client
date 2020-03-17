@@ -22,7 +22,7 @@ class Chat extends React.Component {
 
   componentDidMount = () => {
     // sets socket data
-    const socket = socketIOClient("http://localhost:5000/");
+    const socket = socketIOClient("https://edgram.herokuapp.com/");
     // recieves the update flag from server. When the server emits the flag, it gets set to state,
     // and that triggers the conditional in componentDidUpdate
     socket.on("updateFlag", data => this.setState({ unread: data }))
