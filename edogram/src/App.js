@@ -4,7 +4,7 @@ import Landing from "./components/landing";
 import Dashboard from "./components/dashboard";
 import Chat from "./components/chat";
 // eslint-disable-next-line
-import app from "./components/style/app.css";
+import "./components/style/app.css";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 
 class App extends React.Component {
