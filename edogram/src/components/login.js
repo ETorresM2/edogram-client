@@ -16,18 +16,18 @@ class Login extends React.Component {
   }
 
   sendUser = () => {
-    this.props.callback(this.state.user)
-  }
+    this.props.callback(this.state.user);
+  };
   getUser = response => {
-    localStorage.setItem("user", JSON.stringify(response.data))
-    console.log(localStorage.getItem("user"))
+    localStorage.setItem("user", JSON.stringify(response.data));
+    console.log(localStorage.getItem("user"));
     this.setState({ user: response.data });
     if (this.state.user) {
-      this.sendUser()
+      this.sendUser();
       this.props.history.push("/dashboard");
     }
   };
-  submitHandler = event => {
+  loginHandler = event => {
     event.preventDefault();
     axios
       .post("https://edgram.herokuapp.com/login", this.state.creds)
@@ -51,10 +51,30 @@ class Login extends React.Component {
     });
   };
 
+  registerHandler = event => {
+    event.preventDefault();
+    axios
+      .post("https://edgram.herokuapp.com/users", this.state.creds)
+      .then(this.setState({ message: "Registration Successful" }))
+      .catch(error =>
+        console
+          .log(error)
+          .then(this.setState({ message: "Registration Failed" }))
+      );
+
+    this.setState({
+      creds: {
+        ...this.state.creds,
+        username: "",
+        password: ""
+      }
+    });
+  };
+
   render() {
     return (
-      <div >
-        <form onSubmit={this.submitHandler}>
+      <div>
+        <form onSubmit={this.loginHandler}>
           <input
             type="text"
             name="username"
@@ -69,8 +89,11 @@ class Login extends React.Component {
             value={this.state.creds.password}
             onChange={this.changeHandler}
           />
+
           <button type="submit">Login</button>
         </form>
+        <button onClick={this.registerHandler}>Register</button>
+        <p>{this.state.message}</p>
       </div>
     );
   }
