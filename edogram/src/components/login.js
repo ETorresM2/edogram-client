@@ -1,6 +1,7 @@
 import React from "react";
 
 import axios from "axios";
+import "./style/login.css"
 
 class Login extends React.Component {
   constructor() {
@@ -73,7 +74,8 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className = "loginWrapper">
+        <h3>Login</h3>
         <form onSubmit={this.loginHandler}>
           <input
             type="text"
@@ -90,9 +92,9 @@ class Login extends React.Component {
             onChange={this.changeHandler}
           />
 
-          <button type="submit">Login</button>
+          <button className="loginButton" type="submit">Login</button>
         </form>
-        <button onClick={this.registerHandler}>Register</button>
+        <button className="registerButton" onClick={this.registerHandler}>Register</button>
         <p>{this.state.message}</p>
       </div>
     );

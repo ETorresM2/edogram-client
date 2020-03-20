@@ -1,0 +1,49 @@
+
+h3 {
+    margin: 100px auto;
+    font-size: 2rem;
+}
+
+.loginWrapper {
+    margin: 100px auto;
+    display: flex;
+    height: 500px;
+    width: 450px;
+    justify-content: center;
+    background-color: tomato;
+    flex-flow: column;
+    border-radius: 3%;
+    background-color: #C8B8DB;
+    justify-content: space-between;
+
+}
+
+form {
+    display: flex;
+    flex-flow: column;
+
+}
+
+input {
+    width: 75%;
+    margin: 0 auto;
+}
+
+.loginButton {
+    margin: 0 auto;
+    margin-top: 10px;
+    width: 75%;
+    height: 50px;
+}
+
+.registerButton {
+    margin: 0 auto;
+    margin-top: 10px;
+    width: 75%;
+    height: 50px;
+}
+
+input::placeholder{
+    text-align: center;
+}
+
