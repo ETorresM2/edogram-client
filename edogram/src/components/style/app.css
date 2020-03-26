@@ -93,3 +93,8 @@ nav button {
     background-color: #C8B8DB;
     color: black;
 }
+
+.dashWrapper {
+    display: flex;
+    height: 1000px;
+}

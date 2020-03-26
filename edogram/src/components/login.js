@@ -76,6 +76,7 @@ class Login extends React.Component {
     return (
       <div className = "loginWrapper">
         <h3>Login</h3>
+        <p>Please use your username and password to login, or to create an account click register after entering your desired credentials.</p>
         <form onSubmit={this.loginHandler}>
           <input
             type="text"
@@ -85,7 +86,7 @@ class Login extends React.Component {
             onChange={this.changeHandler}
           />
           <input
-            type="text"
+            type="password"
             name="password"
             placeholder="Password"
             value={this.state.creds.password}

@@ -1,7 +1,11 @@
 
 h3 {
-    margin: 100px auto;
+    margin: 50px auto;
     font-size: 2rem;
+}
+
+p {
+    margin: 0 15px;
 }
 
 .loginWrapper {
@@ -26,7 +30,11 @@ form {
 
 input {
     width: 75%;
-    margin: 0 auto;
+    margin: 2px auto;
+}
+
+button:hover {
+    cursor: pointer;
 }
 
 .loginButton {
@@ -35,6 +43,7 @@ input {
     width: 75%;
     height: 50px;
 }
+
 
 .registerButton {
     margin: 0 auto;

@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import socketIOClient from "socket.io-client";
+import "./style/chat.css"
 axios.defaults.withCredentials = true;
 let user = JSON.parse(localStorage.getItem("user"));
 
@@ -8,6 +9,7 @@ class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      friendName: "",
       unread: false,
       // stores messages user has sent
       sentMessages: [],
@@ -42,10 +44,28 @@ class Chat extends React.Component {
           console.log(err);
         });
       });
+      this.setState({friendName: this.props.match.params.receiver})
   };
 
   // if the update flag is set to true, then this function executes getReceivedMessages, and then sets the flag back to  to false
   componentDidUpdate = () => {
+    if (this.state.friendName !== this.props.match.params.receiver) {
+      console.log("changed")
+      axios
+      .get(
+        `https://edgram.herokuapp.com/posts/${user.username}/${this.props.match.params.receiver}`
+      )
+      .then(response => {
+        this.setState({ sentMessages: response.data });
+      })
+      // below function gets received messages and sets them to state
+      .then(response => {
+        this.getReceivedMessages().catch(err => {
+          console.log(err);
+        });
+      });
+      this.setState({friendName: this.props.match.params.receiver})
+    }
     if (this.state.unread===true) {
       axios
       .get(
@@ -123,10 +143,11 @@ class Chat extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Chat</h1>
+      <div className= "chatWrapper">
+        <div className="messagesHeader">
+    <h1>{this.props.match.params.receiver}</h1>
+        </div>
         <div>
-          <h3>Messages:</h3>
           {this.state.messages.map(message => {
             return <div>{message.body}</div>;
           })}

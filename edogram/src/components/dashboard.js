@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import axios from "axios";
+import "./style/dashboard.css"
 
 
 class Dashboard extends React.Component {
@@ -27,11 +28,11 @@ class Dashboard extends React.Component {
   };
 
   componentDidUpdate = () => {
-    const user = JSON.parse(localStorage.getItem("user"))
-    axios
-    .get(`https://edgram.herokuapp.com/friends/${user.id}`)
-    .then(response => this.setState({ friends: response.data }))
-    .catch(error => console.log(error));
+    // const user = JSON.parse(localStorage.getItem("user"))
+    // axios
+    // .get(`https://edgram.herokuapp.com/friends/${user.id}`)
+    // .then(response => this.setState({ friends: response.data }))
+    // .catch(error => console.log(error));
   }
 
   changeHandler = e => {
@@ -48,34 +49,41 @@ class Dashboard extends React.Component {
       console.log(response)
     })
     .catch(error => console.log(error))
-    this.setState({friend:""})
+    .then(()=> {
+      axios
+      .get(`https://edgram.herokuapp.com/friends/${user.id}`)
+      .then(response => this.setState({ friends: response.data }))
+      .catch(error => console.log(error))
+    })
 
   }
 
   render() {
     const user = JSON.parse(localStorage.getItem("user"))
     return (
-      <div>
+      <div className="sidebar">
         <h1>Welcome to Dashboard</h1>
 
-        <p>Name: {user.username} </p>
+        <p>Logged in as {user.username} </p>
         <div>
           <h3>Contacts:</h3>
           <div>
             <form onSubmit={this.submitHandler}>
-              <input type="text" name="friend" placeholder="username" value={this.state.friend} onChange={this.changeHandler} />
-              <button type="submit">Add Contact</button>
+              <input className="addFriendInput" type="text" name="friend" placeholder="username" value={this.state.friend} onChange={this.changeHandler} />
+              <button className="addFriendButton" type="submit">Add Contact</button>
             </form>
           </div>
+          <div className="friendsList">
           {this.state.friends.map(friend => {
             return (
-              <Link to = {`/chat/${friend.friendName}`}>
-                <div>
+              <Link to = {`/dashboard/chat/${friend.friendName}`}>
+                <div className = "friendLink">
                   <h4>{friend.friendName}</h4>
                 </div>
               </Link>
             );
           })}
+          </div>
         </div>
       </div>
     );
