@@ -62,9 +62,7 @@ class Dashboard extends React.Component {
     const user = JSON.parse(localStorage.getItem("user"))
     return (
       <div className="sidebar">
-        <h1>Welcome to Dashboard</h1>
-
-        <p>Logged in as {user.username} </p>
+        <h2>Logged in as {user.username} </h2>
         <div>
           <h3>Contacts:</h3>
           <div>

@@ -2,3 +2,30 @@
     background-color: #70587C;
     width: 85%;
 }
+
+.message {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid black;
+    background-color: white;
+    min-height: 50px;
+    padding-top: 10px;
+    width: 20%
+
+}
+
+.sentMessage{
+    display: flex;
+    margin-right: 10%
+}
+
+.sentMessageWrapper {
+    display: flex;
+    justify-content: flex-end;
+    background-color: #C8B8DB
+}
+
+.receivedMessage{
+    margin-left: 10%
+    
+}

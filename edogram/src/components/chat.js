@@ -149,7 +149,11 @@ class Chat extends React.Component {
         </div>
         <div>
           {this.state.messages.map(message => {
-            return <div>{message.body}</div>;
+            if(message.sender===this.props.match.params.receiver) {
+              return <div className= "receivedMessageWrapper"><div className = "message receivedMessage clearfix">{message.body}</div></div>
+            } else {
+              return <div className="sentMessageWrapper"><div className="message sentMessage clearfix">{message.body}</div></div>
+            }
           })}
           <form onSubmit={this.submitHandler}>
             <input
