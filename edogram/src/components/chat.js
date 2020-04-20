@@ -58,6 +58,19 @@ class Chat extends React.Component {
       .then(response => {
         this.setState({ sentMessages: response.data });
       })
+      // .catch(error => {
+      //   console.log(error)
+      //   if(error.status===500) {
+      //       console.log("logging out")
+      //       localStorage.clear()
+      //       axios
+      //       .get(
+      //         `https://edgram.herokuapp.com/logout`
+      //       )
+      //       this.props.history.push("/login")
+      //       window.location.reload(false);
+      //     }
+      // })
       // below function gets received messages and sets them to state
       .then(response => {
         this.getReceivedMessages().catch(err => {
@@ -156,13 +169,13 @@ class Chat extends React.Component {
             }
           })}
           <form onSubmit={this.submitHandler}>
-            <input
+            <input className="chatInput"
               type="text"
               placeholder="type message"
               value={this.state.newMessage}
               onChange={this.changeHandler}
             />
-            <button>Enter</button>
+            <button className="chatInputButton">Enter</button>
           </form>
         </div>
       </div>
